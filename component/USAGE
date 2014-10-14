@@ -1,0 +1,16 @@
+Description:
+    Creates a new Angular component
+
+Example:
+    yo angular-express:component foo
+
+    Depending on what parts are selected, this will create:
+        app/components/foo/foo.js
+        app/components/foo/foo.html
+        app/components/foo/foo.less
+        app/components/foo/foo-controller.js
+        app/components/foo/foo-controller_test.js
+        app/components/foo/foo-directive.js
+        app/components/foo/foo-directive_test.js
+        app/components/foo/foo-service.js
+        app/components/foo/foo-service_test.js

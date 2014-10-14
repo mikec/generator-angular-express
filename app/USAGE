@@ -1,0 +1,5 @@
+Description:
+    Creates an AngularJS app and an express server
+
+Example:
+    yo angular-express
