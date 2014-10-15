@@ -81,6 +81,15 @@ module.exports = function(grunt) {
             }
         },
 
+        karma: {
+            unit: {
+                configFile: 'test/karma.conf.js',
+                autoWatch: false,
+                singleRun: true,
+                browsers: ['PhantomJS']
+            }
+        },
+
         watch: {
             options: {
                 livereload: true,
@@ -156,6 +165,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', [
         'build-dist',
         'express',
+        'karma',
         'watch'
     ]);
 

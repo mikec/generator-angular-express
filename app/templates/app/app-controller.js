@@ -1,8 +1,6 @@
-<%= appname %>.main = {};
-
 /**
  * App controller.
  */
-<%= appname %>.main.AppCtrl = function() {
+<%= appname %>.AppCtrl = function() { };
 
-};
+<%= appname %>.controller('AppCtrl', <%= appname %>.AppCtrl);
