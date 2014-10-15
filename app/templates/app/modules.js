@@ -1,1 +1,4 @@
-var <%= appname %> = angular.module('<%= appname %>', ['ngAnimate']);
+var <%= appname %> = angular.module('<%= appname %>', [
+    'ngAnimate'
+    /* module dependencies */
+]);

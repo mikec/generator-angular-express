@@ -56,9 +56,11 @@ module.exports = yeoman.generators.NamedBase.extend({
 
     copyFiles: function() {
 
-      templateComponentFile.call(this, '.js');
+      var indexFilePath = 'server/views/index.html';
+      var indexFileStr = this.readFileAsString(indexFilePath);
 
       if(this.hasController) {
+        addComponentScript.call(this, '-controller.js');
         templateComponentFile.call(this, '-controller.js');
         templateComponentFile.call(this, '-controller_test.js');
       }
@@ -66,15 +68,29 @@ module.exports = yeoman.generators.NamedBase.extend({
         templateComponentFile.call(this, '.html');
       }
       if(this.hasDirective) {
+        addComponentScript.call(this, '-directive.js');
         templateComponentFile.call(this, '-directive.js');
         templateComponentFile.call(this, '-directive_test.js');
       }
       if(this.hasService) {
+        addComponentScript.call(this, '-service.js');
         templateComponentFile.call(this, '-service.js');
         templateComponentFile.call(this, '-service_test.js');
       }
       if(this.hasStylesheet) {
         templateComponentFile.call(this, '.less');
+      }
+
+      this.writeFileFromString(indexFileStr, indexFilePath);
+
+      function addComponentScript(postfix) {
+        indexFileStr =
+          indexFileStr.replace(
+            '<!-- endbuild -->',
+            '<script src=\"' +
+              '/components/' + this.name + '/' + this.name + postfix +
+            '"></script>\n\t\t<!-- endbuild -->'
+          );
       }
 
       function templateComponentFile(postfix) {
@@ -85,6 +101,20 @@ module.exports = yeoman.generators.NamedBase.extend({
         );
       }
 
+    },
+
+    addModule: function() {
+      var path = "app/modules.js";
+      var fileStr = this.readFileAsString(path);
+      var mod = this.appname + '.' + this.name;
+      fileStr += '\n' + mod + ' = ' +
+                'angular.module(\'' +
+                  mod + '\', []);';
+      fileStr = fileStr.replace(
+        '/* module dependencies */',
+        ', \'' + mod + '\'\n\t/* module dependencies */'
+      );
+      this.writeFileFromString(fileStr, path);
     }
 
 });
