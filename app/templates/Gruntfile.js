@@ -47,6 +47,40 @@ module.exports = function(grunt) {
             }
         },
 
+        jshint: {
+            app: {
+                options: {
+                    browser: true,
+                    globals: {
+                        angular: false,
+                        sampleApp: true
+                    },
+                    laxcomma: true,
+                    maxlen: 120,
+                    unused: true,
+                    undef: true
+                },
+                files: {
+                    src: [
+                        'app/**/*.js',
+                        '!app/**/*_test.js'
+                    ]
+                }
+            },
+            server: {
+                options: {
+                    node: true,
+                    laxcomma: true,
+                    maxlen: 120,
+                    unused: true,
+                    undef: true
+                },
+                files: {
+                    src: ['server/**/*.js']
+                }
+            }
+        },
+
         less: {
             unminified: {
                 files: {
@@ -163,6 +197,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('default', [
+        'jshint',
         'build-dist',
         'express',
         'karma',
