@@ -135,11 +135,20 @@ module.exports = function(grunt) {
             },
             app: {
                 files: ['app/**/*.js', 'app/**/*.html'],
-                tasks: ['copy-app-dist', 'prepare-dist']
+                tasks: [
+                    'jshint:app',
+                    'copy-app-dist',
+                    'prepare-dist'
+                ]
             },
             server: {
                 files: ['server/**'],
-                tasks: ['copy-server-dist', 'prepare-dist', 'express']
+                tasks: [
+                    'jshint:server',
+                    'copy-server-dist',
+                    'prepare-dist',
+                    'express'
+                ]
             },
             grunt: {
                 files: ['Gruntfile.js'],
