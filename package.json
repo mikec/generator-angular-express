@@ -4,6 +4,7 @@
   "description": "",
   "keywords": ["yeoman-generator"],
   "dependencies": {
-    "yeoman-generator": "^0.17.7"
+    "yeoman-generator": "^0.17.7",
+    "exec": "^0.1.2"
   }
 }

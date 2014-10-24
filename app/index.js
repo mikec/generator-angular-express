@@ -1,6 +1,7 @@
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var genUtils = require('../util.js');
+var exec = require('exec');
 
 module.exports = yeoman.generators.Base.extend({
 
@@ -20,6 +21,22 @@ module.exports = yeoman.generators.Base.extend({
       },
       {
         type: 'input',
+        name: 'dbName',
+        message: 'What is the name of your postgres database?',
+        when: function(answers) {
+          return answers.postgres;
+        }
+      },
+      {
+        type: 'confirm',
+        name: 'dbCreate',
+        message: 'Create this database?',
+        when: function(answers) {
+          return answers.postgres;
+        }
+      },
+      {
+        type: 'input',
         name: 'dbUser',
         message: 'What is the name of your postgres user?',
         when: function(answers) {
@@ -27,9 +44,9 @@ module.exports = yeoman.generators.Base.extend({
         }
       },
       {
-        type: 'input',
-        name: 'dbName',
-        message: 'What is the name of your postgres database?',
+        type: 'confirm',
+        name: 'dbUserCreate',
+        message: 'Create a role for this user?',
         when: function(answers) {
           return answers.postgres;
         }
@@ -38,10 +55,34 @@ module.exports = yeoman.generators.Base.extend({
           this.filters.postgres = true;
           this.dbName = answers.dbName;
           this.dbUser = answers.dbUser;
+          this.dbCreate = answers.dbCreate;
+          this.dbUserCreate = answers.dbUserCreate;
         }
-        if(answers.knexMigrations) this.filters.knexMigrations = true;
         next();
       }.bind(this));
+    },
+
+    dbCreate: function() {
+      if(this.dbCreate) {
+        console.log("Creating postgres database: " + this.dbName);
+        exec(['createdb', this.dbName], function(err, out, code) {
+          if (err instanceof Error)
+            throw err;
+          process.stderr.write(err);
+          process.stdout.write(out);
+          process.exit(code);
+        });
+      }
+      if(this.dbUserCreate) {
+        console.log("Creating postgres user: " + this.dbUser);
+        exec(['createuser', '-s', '-r', '-d', this.dbUser], function(err, out, code) {
+          if (err instanceof Error)
+            throw err;
+          process.stderr.write(err);
+          process.stdout.write(out);
+          process.exit(code);
+        });
+      }
     },
 
     generate: function() {
