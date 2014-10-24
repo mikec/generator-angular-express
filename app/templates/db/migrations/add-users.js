@@ -1,6 +1,4 @@
-/*'use strict';
-
-// sample migrations file (use `knex migrate:make` to generate new migrations, and delete this)
+'use strict';
 
 exports.up = function(knex, Promise) {
     return Promise.all([
@@ -17,4 +15,3 @@ exports.down = function(knex, Promise) {
         knex.schema.dropTableIfExists('users')
     ]);
 };
-*/
