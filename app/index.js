@@ -33,14 +33,6 @@ module.exports = yeoman.generators.Base.extend({
         when: function(answers) {
           return answers.postgres;
         }
-      },
-      {
-        type: 'confirm',
-        name: 'knexMigrations',
-        message: 'Generate files for knex migrations?',
-        when: function(answers) {
-          return answers.postgres;
-        }
       }], function(answers) {
         if(answers.postgres) {
           this.filters.postgres = true;
@@ -60,7 +52,7 @@ module.exports = yeoman.generators.Base.extend({
         genUtils.processDirectory(this, 'app', 'app');
         genUtils.processDirectory(this, 'server', 'server');
         genUtils.processDirectory(this, 'test', 'test');
-        if(this.filters.knexMigrations) {
+        if(this.filters.postgres) {
           this.template('knexfile.js', 'knexfile.js');
           genUtils.processDirectory(this, 'db', 'db');
         }
