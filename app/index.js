@@ -70,7 +70,6 @@ module.exports = yeoman.generators.Base.extend({
             throw err;
           process.stderr.write(err);
           process.stdout.write(out);
-          process.exit(code);
         });
       }
       if(this.dbUserCreate) {
@@ -80,7 +79,6 @@ module.exports = yeoman.generators.Base.extend({
             throw err;
           process.stderr.write(err);
           process.stdout.write(out);
-          process.exit(code);
         });
       }
     },
