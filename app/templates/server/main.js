@@ -3,6 +3,13 @@ var url = require('url');
 var express = require('express');
 var cons = require('consolidate');
 var cookieParser = require('cookie-parser');
+<% if(filters.knexAndBookshelf) { %>
+var knexConfig = require('../knexfile');
+var knex = require('knex')(knexConfig.development);
+var bookshelf = require('bookshelf')(knex);
+<% } %>
+
+var app = module.exports = express();
 
 var globalConfig = {
     minify: process.env.MINIFY == 'yes' ? true : false
@@ -10,11 +17,18 @@ var globalConfig = {
 
 var rootPath = path.dirname(__dirname);
 var port = Number(process.env.PORT || 9999);
-var app = express();
 
 app.set('views', path.join(rootPath, 'server'));
 app.engine('html', cons.handlebars);
 app.set('view engine', 'html');
+
+<% if(filters.knexAndBookshelf) { %>
+app.set('bookshelf', bookshelf);
+var models = require('require-directory')(module, './models');
+for(var modelName in models) {
+    app.set(modelName, models[modelName]);
+}
+<% } %>
 
 app.use(cookieParser());
 

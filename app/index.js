@@ -17,7 +17,7 @@ module.exports = yeoman.generators.Base.extend({
       this.prompt([{
         type: 'confirm',
         name: 'postgres',
-        message: 'Would you like to use postgres with bookshelf/knex for data modeling?',
+        message: 'Would you like to use postgres?',
       },
       {
         type: 'input',
@@ -50,6 +50,14 @@ module.exports = yeoman.generators.Base.extend({
         when: function(answers) {
           return answers.postgres;
         }
+      },
+      {
+        type: 'confirm',
+        name: 'knexAndBookshelf',
+        message: 'Use knex and Bookshelf.js for data modeling?',
+        when: function(answers) {
+          return answers.postgres;
+        }
       }], function(answers) {
         if(answers.postgres) {
           this.filters.postgres = true;
@@ -57,6 +65,7 @@ module.exports = yeoman.generators.Base.extend({
           this.dbUser = answers.dbUser;
           this.dbCreate = answers.dbCreate;
           this.dbUserCreate = answers.dbUserCreate;
+          if(answers.knexAndBookshelf) this.filters.knexAndBookshelf = true;
         }
         next();
       }.bind(this));
@@ -85,15 +94,21 @@ module.exports = yeoman.generators.Base.extend({
 
     generate: function() {
         this.sourceRoot(path.join(__dirname, './templates'));
+
         this.template('bower.json', 'bower.json');
         this.template('Gruntfile.js', 'Gruntfile.js');
         this.template('package.json', 'package.json');
+
         genUtils.processDirectory(this, 'app', 'app');
-        genUtils.processDirectory(this, 'server', 'server');
         genUtils.processDirectory(this, 'test', 'test');
-        if(this.filters.postgres) {
+
+        genUtils.processDirectory(this, 'server/views', 'server/views');
+        this.template('server/main.js', 'server/main.js');
+
+        if(this.filters.knexAndBookshelf) {
           this.template('knexfile.js', 'knexfile.js');
           genUtils.processDirectory(this, 'db', 'db');
+          genUtils.processDirectory(this, 'server/models', 'server/models');
         }
     },
 
