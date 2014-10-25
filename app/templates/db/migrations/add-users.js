@@ -5,7 +5,8 @@ exports.up = function(knex, Promise) {
         knex.schema.createTable('users', function(table) {
             table.increments();
             table.text('name');
-            table.timestamps();
+            table.dateTime('created_at').notNullable().defaultTo(knex.raw('now()'));
+            table.dateTime('updated_at').notNullable().defaultTo(knex.raw('now()'));
         })
     ]);
 };
