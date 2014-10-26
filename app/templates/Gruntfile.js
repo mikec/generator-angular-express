@@ -74,6 +74,19 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     node: true,
+                    globals: (function() {
+                        // add model names to globals
+                        var globals = {};
+                        var models = grunt.file.expand('./server/models/**/*.js');
+                        for(var i in models) {
+                            globals[
+                                models[i]
+                                    .replace(/^.*[\\\/]/, '')
+                                    .split('.')[0]
+                            ] = true;
+                        }
+                        return globals;
+                    })(),
                     laxcomma: true,
                     maxlen: 120,
                     unused: true,
