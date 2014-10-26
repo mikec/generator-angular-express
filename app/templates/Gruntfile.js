@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                     browser: true,
                     globals: {
                         angular: false,
-                        sampleApp: true
+                        <%= appname %>: true
                     },
                     laxcomma: true,
                     maxlen: 120,
