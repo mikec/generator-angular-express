@@ -44,7 +44,11 @@ module.exports = function(grunt) {
                 expand: true,
                 src: ['bower_components/**'],
                 dest: 'dist/app/unminified'
-            }
+            }<% if (filters.knexAndBookshelf) { %>,
+            knexfile: {
+                src: 'knexfile.js',
+                dest: 'dist/knexfile.js'
+            }<% } %>
         },
 
         jshint: {
@@ -70,6 +74,19 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     node: true,
+                    globals: (function() {
+                        // add model names to globals
+                        var globals = {};
+                        var models = grunt.file.expand('./server/models/**/*.js');
+                        for(var i in models) {
+                            globals[
+                                models[i]
+                                    .replace(/^.*[\\\/]/, '')
+                                    .split('.')[0]
+                            ] = true;
+                        }
+                        return globals;
+                    })(),
                     laxcomma: true,
                     maxlen: 120,
                     unused: 'vars',
@@ -171,7 +188,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('copy-server-dist', 'Copy server files to dist',
     function() {
-        grunt.task.run('copy:server');
+        grunt.task.run('copy:server'); <% if (filters.knexAndBookshelf) { %>
+        grunt.task.run('copy:knexfile'); <% } %>
         grunt.task.run('copy:server_unminified');
         if(minOption()) {
             grunt.task.run('copy:server_minified');
