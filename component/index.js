@@ -43,7 +43,13 @@ module.exports = yeoman.generators.NamedBase.extend({
             checked: false
           }
         ]
+      },
+      {
+        name: 'componentPath',
+        type: 'input',
+        message: 'Where do you want it? app/'
       }], function (props) {
+          this.componentPath = props.componentPath;
           this.hasController = props.componentParts.indexOf('controller') > -1;
           this.hasHtmlTemplate = props.componentParts.indexOf('htmlTemplate') > -1;
           this.hasService = props.componentParts.indexOf('service') > -1;
@@ -88,7 +94,7 @@ module.exports = yeoman.generators.NamedBase.extend({
           indexFileStr.replace(
             '<!-- endbuild -->',
             '<script src=\"' +
-              '/components/' + this.name + '/' + this.name + postfix +
+              '/' + this.componentPath + this.name + '/' + this.name + postfix +
             '"></script>\n\t\t<!-- endbuild -->'
           );
       }
@@ -96,7 +102,7 @@ module.exports = yeoman.generators.NamedBase.extend({
       function templateComponentFile(postfix) {
         this.template(
           'component' + postfix,
-          'app/components/' + this.name + '/' + this.name + postfix,
+          'app/' + this.componentPath + this.name + '/' + this.name + postfix,
           this
         );
       }
