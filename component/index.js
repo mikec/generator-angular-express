@@ -11,6 +11,7 @@ module.exports = yeoman.generators.NamedBase.extend({
     },
 
     promptUser: function() {
+      var $this = this;
       var next = this.async();
       this.prompt([{
         name: 'componentParts',
@@ -48,8 +49,23 @@ module.exports = yeoman.generators.NamedBase.extend({
         name: 'componentPath',
         type: 'input',
         message: 'Where do you want it? app/'
+      },
+      {
+        name: 'moduleName',
+        type: 'input',
+        message: 'What module do you want to add it to? ' + $this.appname + '.'
+      },
+      {
+        name: 'createModule',
+        type: 'confirm',
+        message: 'This module does not exist. Do you want to create it?',
+        when: function(answers) {
+          return !moduleExists.call($this, answers.moduleName);
+        }
       }], function (props) {
           this.componentPath = props.componentPath;
+          this.moduleName = props.moduleName;
+          this.createModule = props.createModule;
           this.hasController = props.componentParts.indexOf('controller') > -1;
           this.hasHtmlTemplate = props.componentParts.indexOf('htmlTemplate') > -1;
           this.hasService = props.componentParts.indexOf('service') > -1;
@@ -94,7 +110,7 @@ module.exports = yeoman.generators.NamedBase.extend({
           indexFileStr.replace(
             '<!-- endbuild -->',
             '<script src=\"' +
-              '/' + this.componentPath + this.name + '/' + this.name + postfix +
+              '/' + this.componentPath + '/' + this.name + postfix +
             '"></script>\n\t\t<!-- endbuild -->'
           );
       }
@@ -102,7 +118,7 @@ module.exports = yeoman.generators.NamedBase.extend({
       function templateComponentFile(postfix) {
         this.template(
           'component' + postfix,
-          'app/' + this.componentPath + this.name + '/' + this.name + postfix,
+          'app/' + this.componentPath + '/' + this.name + postfix,
           this
         );
       }
@@ -110,17 +126,26 @@ module.exports = yeoman.generators.NamedBase.extend({
     },
 
     addModule: function() {
-      var path = "app/modules.js";
-      var fileStr = this.readFileAsString(path);
-      var mod = this.appname + '.' + this.name;
-      fileStr += '\n' + mod + ' = ' +
-                'angular.module(\'' +
-                  mod + '\', []);';
-      fileStr = fileStr.replace(
-        '/* module dependencies */',
-        ', \'' + mod + '\'\n\t/* module dependencies */'
-      );
-      this.writeFileFromString(fileStr, path);
+      if(this.createModule) {
+        var path = "app/modules.js";
+        var fileStr = this.readFileAsString(path);
+        var mod = this.appname + '.' + this.moduleName;
+        fileStr += '\n' + mod + ' = ' +
+                  'angular.module(\'' +
+                    mod + '\', []);';
+        fileStr = fileStr.replace(
+          '/* module dependencies */',
+          ', \'' + mod + '\'\n\t/* module dependencies */'
+        );
+        this.writeFileFromString(fileStr, path);
+      }
     }
 
 });
+
+function moduleExists(moduleName) {
+    var path = "app/modules.js";
+    var fileStr = this.readFileAsString(path);
+    var fullModName = this.appname + '.' + moduleName;
+    return fileStr.indexOf("angular.module('" + fullModName + "'") !== -1;
+}

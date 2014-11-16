@@ -1,6 +1,6 @@
 /**
  * <%= name %> directive.
  */
-<%= appname %>.<%= name %>.directive('<%= name %>', [function() {
+<%= appname %>.<%= moduleName %>.directive('<%= name %>', [function() {
     //
 }]);

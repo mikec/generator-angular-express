@@ -1,6 +1,6 @@
 /**
  * <%= classname %> service.
  */
-<%= appname %>.<%= name %>.service('<%= classname %>', [function() {
+<%= appname %>.<%= moduleName %>.service('<%= classname %>', [function() {
     //
 }]);
