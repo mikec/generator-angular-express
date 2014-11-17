@@ -9,6 +9,20 @@ module.exports = yeoman.generators.NamedBase.extend({
       this.appname = this.name || path.basename(process.cwd());
       this.appname = this._.camelize(this._.slugify(this._.humanize(this.appname)));
       this.filters = {};
+
+      this.addModule = function(moduleName) {
+        var path = "app/modules.js";
+        var fileStr = this.readFileAsString(path);
+        fileStr += '\n' + moduleName + ' = ' +
+                  'angular.module(\'' +
+                    moduleName + '\', []);';
+        fileStr = fileStr.replace(
+          '/* module dependencies */',
+          ', \'' + moduleName + '\'\n\t/* module dependencies */'
+        );
+        this.writeFileFromString(fileStr, path);
+      };
+
     },
 
     promptUser: function() {

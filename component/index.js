@@ -5,6 +5,10 @@ module.exports = angularExpressGen.extend({
 
     start: function() {
       this.init();
+      this.appname = this._.camelize(
+                      this._.slugify(
+                        this._.humanize(path.basename(process.cwd()))
+                      ));
       this.classname = this._.classify(this.name);
     },
 
@@ -123,19 +127,9 @@ module.exports = angularExpressGen.extend({
 
     },
 
-    addModule: function() {
+    createComponentModule: function() {
       if(this.createModule) {
-        var path = "app/modules.js";
-        var fileStr = this.readFileAsString(path);
-        var mod = this.appname + '.' + this.moduleName;
-        fileStr += '\n' + mod + ' = ' +
-                  'angular.module(\'' +
-                    mod + '\', []);';
-        fileStr = fileStr.replace(
-          '/* module dependencies */',
-          ', \'' + mod + '\'\n\t/* module dependencies */'
-        );
-        this.writeFileFromString(fileStr, path);
+        this.addModule(this.appname + '.' + this.moduleName);
       }
     }
 
