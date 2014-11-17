@@ -4,7 +4,6 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
         files : [
             'bower_components/angular/angular.js',
-            'bower_components/angular-animate/angular-animate.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'app/modules.js',
             'app/**/*.js'
