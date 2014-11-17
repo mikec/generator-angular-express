@@ -3,7 +3,7 @@ var yeoman = require('yeoman-generator');
 var genUtils = require('../util.js');
 var exec = require('exec');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.generators.NamedBase.extend({
 
     init: function () {
       this.argument('name', { type: String, required: false });
@@ -93,7 +93,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     generate: function() {
-        this.sourceRoot(path.join(__dirname, './templates'));
+        this.sourceRoot(path.join(__dirname, '../templates'));
 
         this.template('bower.json', 'bower.json');
         this.template('Gruntfile.js', 'Gruntfile.js');
