@@ -116,8 +116,9 @@ module.exports = yeoman.generators.NamedBase.extend({
       }
 
       function templateComponentFile(postfix) {
+        console.log('TEST: component' + postfix);
         this.template(
-          'component' + postfix,
+          '../../templates/component/component' + postfix,
           'app/' + this.componentPath + '/' + this.name + postfix,
           this
         );
