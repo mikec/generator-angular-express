@@ -1,12 +1,10 @@
 var path = require('path');
-var yeoman = require('yeoman-generator');
-var genUtils = require('../util.js');
+var angularExpressGen = require('../app/index');
 
-module.exports = yeoman.generators.NamedBase.extend({
+module.exports = angularExpressGen.extend({
 
-    init: function () {
-      this.appname = path.basename(process.cwd());
-      this.appname = this._.camelize(this._.slugify(this._.humanize(this.appname)));
+    start: function() {
+      this.init();
       this.classname = this._.classify(this.name);
     },
 
@@ -116,7 +114,6 @@ module.exports = yeoman.generators.NamedBase.extend({
       }
 
       function templateComponentFile(postfix) {
-        console.log('TEST: component' + postfix);
         this.template(
           '../../templates/component/component' + postfix,
           'app/' + this.componentPath + '/' + this.name + postfix,

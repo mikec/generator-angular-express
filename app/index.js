@@ -6,7 +6,6 @@ var exec = require('exec');
 module.exports = yeoman.generators.NamedBase.extend({
 
     init: function () {
-      this.argument('name', { type: String, required: false });
       this.appname = this.name || path.basename(process.cwd());
       this.appname = this._.camelize(this._.slugify(this._.humanize(this.appname)));
       this.filters = {};
