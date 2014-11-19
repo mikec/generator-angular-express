@@ -129,7 +129,7 @@ module.exports = angularExpressGen.extend({
 
     createComponentModule: function() {
       if(this.createModule) {
-        this.addModule(this.appname + '.' + this.moduleName);
+        this.addModule(this.moduleName);
       }
     }
 

@@ -1,0 +1,1 @@
+var mockapp = angular.module('mockapp', []);

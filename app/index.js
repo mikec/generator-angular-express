@@ -12,14 +12,10 @@ module.exports = yeoman.generators.NamedBase.extend({
 
       this.addModule = function(moduleName) {
         var path = "app/modules.js";
-        var fileStr = this.readFileAsString(path);
-        fileStr += '\n' + moduleName + ' = ' +
-                  'angular.module(\'' +
-                    moduleName + '\', []);';
-        fileStr = fileStr.replace(
-          '/* module dependencies */',
-          ', \'' + moduleName + '\'\n\t/* module dependencies */'
-        );
+        var fileStr = genUtils.insertModuleDep(
+                        this.readFileAsString(path),
+                        this.appname,
+                        moduleName);
         this.writeFileFromString(fileStr, path);
       };
 

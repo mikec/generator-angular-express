@@ -8,8 +8,39 @@ module.exports = {
   rewrite: rewrite,
   rewriteFile: rewriteFile,
   appName: appName,
-  processDirectory: processDirectory
+  processDirectory: processDirectory,
+  insertModuleDep: insertModuleDep
 };
+
+function insertModuleDep(fileStr, appName, moduleName) {
+  var fullModName = appName + '.' + moduleName;
+
+  // add reference to the module
+  fileStr += '\n' + fullModName + ' = ' +
+            'angular.module(\'' +
+              fullModName + '\', []);';
+
+  // match everything between `var {appName} = angular.module('{appName}', [` and `]`
+  var depArrayMatcher = new RegExp("var " + appName +
+                              " = angular\\.module\\('" + appName +
+                                      "', \\[([\\s\\S]*?)\\]");
+  var m = depArrayMatcher.exec(fileStr);
+  if(m) {
+    // remove line breaks and tabs
+    var modStr = m[1].replace(/(?:\r\n|\r|\n)/g, '');
+    modStr = modStr.replace(/\s/g, '');
+
+    // add the module dep to the module array
+    var modArray = modStr.split(',');
+    if(modArray[0] === '') modArray = [];
+    modArray.push("'" + fullModName + "'");
+    modStr = "var " + appName + " = angular.module('" + appName +
+                "', [\n    " + modArray.join(',\n    ') + '\n]';
+    fileStr = fileStr.replace(depArrayMatcher, modStr);
+  }
+
+  return fileStr;
+}
 
 function rewriteFile (args) {
   args.path = args.path || process.cwd();
