@@ -1,4 +1,2 @@
 /* exported <%= appname %> */
-var <%= appname %> = angular.module('<%= appname %>', [
-    /* module dependencies */
-]);
+var <%= appname %> = angular.module('<%= appname %>', []);
