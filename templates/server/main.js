@@ -31,6 +31,10 @@ for(var modelName in models) {
 }
 <% } %>
 
+// if local dev
+app.use(require('connect-livereload')());
+//
+
 app.use(cookieParser());
 
 app.use(function(req, res, next) {
