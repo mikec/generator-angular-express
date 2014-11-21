@@ -151,12 +151,21 @@ module.exports = function(grunt) {
                 files: 'app/**/*.less',
                 tasks: ['compile-less']
             },
-            app: {
-                files: ['app/**/*.js', 'app/**/*.html'],
+            app_markup: {
+                files: ['app/**/*.html'],
                 tasks: [
                     'jshint:app',
                     'copy-app-dist',
                     'prepare-dist'
+                ]
+            },
+            app_code: {
+                files: ['app/**/*.js'],
+                tasks: [
+                    'jshint:app',
+                    'copy-app-dist',
+                    'prepare-dist',
+                    'karma'
                 ]
             },
             server: {
