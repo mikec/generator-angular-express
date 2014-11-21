@@ -7,14 +7,14 @@ module.exports = yeoman.generators.NamedBase.extend({
 
     init: function () {
       this.appname = this.name || path.basename(process.cwd());
-      this.appname = this._.camelize(this._.slugify(this._.humanize(this.appname)));
+      this.appVarName = this._.camelize(this.appname);
       this.filters = {};
 
       this.addModule = function(moduleName) {
         var path = "app/modules.js";
         var fileStr = genUtils.insertModuleDep(
                         this.readFileAsString(path),
-                        this.appname,
+                        this.appVarName,
                         moduleName);
         this.writeFileFromString(fileStr, path);
       };

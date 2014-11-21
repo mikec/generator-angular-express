@@ -1,2 +1,2 @@
-/* exported <%= appname %> */
-var <%= appname %> = angular.module('<%= appname %>', []);
+/* exported <%= appVarName %> */
+var <%= appVarName %> = angular.module('<%= appVarName %>', []);

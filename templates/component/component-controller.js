@@ -1,6 +1,6 @@
 /**
  * <%= classname %> controller.
  */
-<%= appname %>.<%= moduleName %>.controller('<%= classname %>Ctrl', [function() {
+<%= appVarName %>.<%= moduleName %>.controller('<%= classname %>Ctrl', [function() {
     //
 }]);

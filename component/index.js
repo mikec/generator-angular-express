@@ -5,10 +5,8 @@ module.exports = angularExpressGen.extend({
 
     start: function() {
       this.init();
-      this.appname = this._.camelize(
-                      this._.slugify(
-                        this._.humanize(path.basename(process.cwd()))
-                      ));
+      this.appname = path.basename(process.cwd());
+      this.appVarName = this._.camelize(this.appname);
       this.classname = this._.classify(this.name);
     },
 
@@ -55,7 +53,7 @@ module.exports = angularExpressGen.extend({
       {
         name: 'moduleName',
         type: 'input',
-        message: 'What module do you want to add it to? ' + $this.appname + '.'
+        message: 'What module do you want to add it to? ' + $this.appVarName + '.'
       },
       {
         name: 'createModule',
@@ -149,6 +147,6 @@ module.exports = angularExpressGen.extend({
 function moduleExists(moduleName) {
     var path = "app/modules.js";
     var fileStr = this.readFileAsString(path);
-    var fullModName = this.appname + '.' + moduleName;
+    var fullModName = this.appVarName + '.' + moduleName;
     return fileStr.indexOf("angular.module('" + fullModName + "'") !== -1;
 }

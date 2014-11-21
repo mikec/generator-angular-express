@@ -1,7 +1,7 @@
-<%= appname %>.config(function() {
+<%= appVarName %>.config(function() {
     //
 });
 
-<%= appname %>.run(function() {
+<%= appVarName %>.run(function() {
     //
 });
