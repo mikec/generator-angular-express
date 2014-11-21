@@ -83,6 +83,9 @@ module.exports = angularExpressGen.extend({
       var indexFilePath = 'server/views/index.html';
       var indexFileStr = this.readFileAsString(indexFilePath);
 
+      var lessFilePath = 'app/app.less';
+      var lessFileStr = this.readFileAsString(lessFilePath);
+
       if(this.hasController) {
         addComponentScript.call(this, '-controller.js');
         templateComponentFile.call(this, '-controller.js');
@@ -102,10 +105,12 @@ module.exports = angularExpressGen.extend({
         templateComponentFile.call(this, '-service_test.js');
       }
       if(this.hasStylesheet) {
+        addLessImport.call(this);
         templateComponentFile.call(this, '.less');
       }
 
       this.writeFileFromString(indexFileStr, indexFilePath);
+      this.writeFileFromString(lessFileStr, lessFilePath);
 
       function addComponentScript(postfix) {
         indexFileStr =
@@ -115,6 +120,12 @@ module.exports = angularExpressGen.extend({
               '/' + this.componentPath + '/' + this.name + postfix +
             '"></script>\n\t\t<!-- endbuild -->'
           );
+      }
+
+      function addLessImport() {
+        lessFileStr = lessFileStr + '\n' +
+                        '@import "/' + this.componentPath +
+                                    '/' + this.name + '.less"';
       }
 
       function templateComponentFile(postfix) {

@@ -1,6 +1,6 @@
 /**
  * <%= name %> directive.
  */
-<%= appname %>.<%= moduleName %>.directive('<%= name %>', [function() {
+<%= appname %>.<%= moduleName %>.directive('<%= _.camelize(name) %>', [function() {
     //
 }]);
