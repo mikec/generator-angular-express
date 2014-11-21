@@ -125,7 +125,7 @@ module.exports = angularExpressGen.extend({
       function addLessImport() {
         lessFileStr = lessFileStr + '\n' +
                         '@import "/' + this.componentPath +
-                                    '/' + this.name + '.less"';
+                                    '/' + this.name + '.less";';
       }
 
       function templateComponentFile(postfix) {
