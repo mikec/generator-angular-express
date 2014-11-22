@@ -10,16 +10,22 @@ module.exports = function(grunt) {
         },
 
         copy: {
+            app_common: {
+                expand: true,
+                cwd: 'app',
+                src: ['**/*', '!**/*.js'],
+                dest: 'dist/app'
+            },
             app_unminified: {
                 expand: true,
                 cwd: 'app',
-                src: ['**/*.js', '!**/*_test.js', '**/*.html'],
+                src: ['**/*.js', '!**/*_test.js'],
                 dest: 'dist/app/unminified'
             },
             app_minified: {
                 expand: true,
                 cwd: 'app',
-                src: ['**/*.js', '!**/*_test.js', '**/*.html'],
+                src: ['**/*.js', '!**/*_test.js'],
                 dest: 'dist/app/minified'
             },
             server: {
@@ -188,6 +194,7 @@ module.exports = function(grunt) {
     grunt.registerTask('copy-app-dist', 'Copy app files to dist',
     function() {
         grunt.task.run([
+            'copy:app_common',
             'copy:app_unminified',
             'copy:bower_copy'
         ]);

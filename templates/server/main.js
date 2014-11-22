@@ -42,8 +42,11 @@ app.use(function(req, res, next) {
     var parsedUrl = url.parse(req.url);
     var splittedPath = parsedUrl.pathname.split(path.sep);
 
-    if (splittedPath[1] && splittedPath[1] !== 'api') {
-        splittedPath.splice(1, 0, getMinPrefix(config));
+    if(splittedPath[1]) {
+        var fileExtension = getFileExtension(parsedUrl.pathname);
+        if(fileExtension == 'js' || fileExtension == 'css') {
+            addPathPrefix(splittedPath, getMinPrefix(config));
+        }
     }
 
     parsedUrl.pathname = splittedPath.join(path.sep);
@@ -90,4 +93,12 @@ function configFromReq(req) {
 
 function getMinPrefix(conf) {
     return conf.minify || globalConfig.minify ? 'minified' : 'unminified';
+}
+
+function addPathPrefix(filePath, prefix) {
+    filePath.splice(1, 0, prefix);
+}
+
+function getFileExtension(filePath) {
+    return filePath.split('.').pop();
 }
