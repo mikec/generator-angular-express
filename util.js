@@ -9,7 +9,8 @@ module.exports = {
   rewriteFile: rewriteFile,
   appName: appName,
   processDirectory: processDirectory,
-  insertModuleDep: insertModuleDep
+  insertModuleDep: insertModuleDep,
+  matchBetween: matchBetween
 };
 
 function insertModuleDep(fileStr, appName, moduleName) {
@@ -119,6 +120,23 @@ function filterFile (template) {
   }
 
   return { name: template, filters: filters };
+}
+
+function matchBetween(searchString, matchBegin, matchEnd) {
+  var ret = {
+    matches: [],
+    values: []
+  };
+  var r = RegExp(matchBegin + '([\\s\\S]*?)' + matchEnd, 'g');
+
+  var m;
+  while (m = r.exec(searchString)) {
+    //console.log(m);
+    ret.matches.push(m);
+    ret.values.push(m[0]);
+  }
+
+  return ret;
 }
 
 function templateIsUsable (self, filteredFile) {
