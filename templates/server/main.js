@@ -10,7 +10,8 @@ var bookshelf = require('bookshelf')(knex);<% } %>
 var app = module.exports = express();
 
 var globalConfig = {
-    minify: process.env.MINIFY == 'yes' ? true : false
+    minify: process.env.MINIFY == 'yes' ? true : false,
+    environment: process.env.ENVIRONMENT || 'local'
 };
 
 var rootPath = path.dirname(__dirname);
@@ -26,9 +27,9 @@ for(var modelName in models) {
     app.set(modelName, models[modelName]);
 }<% } %>
 
-// if local dev
-app.use(require('connect-livereload')());
-//
+if(globalConfig.environment == 'local') {
+    app.use(require('connect-livereload')());
+}
 
 app.use(cookieParser());
 
