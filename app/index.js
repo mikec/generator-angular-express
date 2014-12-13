@@ -81,23 +81,25 @@ module.exports = yeoman.generators.NamedBase.extend({
     },
 
     dbCreate: function() {
-      if(this.dbCreate) {
-        console.log("Creating postgres database: " + this.dbName);
-        exec(['createdb', this.dbName], function(err, out, code) {
-          if (err instanceof Error)
-            throw err;
-          process.stderr.write(err);
-          process.stdout.write(out);
-        });
-      }
-      if(this.dbUserCreate) {
-        console.log("Creating postgres user: " + this.dbUser);
-        exec(['createuser', '-s', '-r', '-d', this.dbUser], function(err, out, code) {
-          if (err instanceof Error)
-            throw err;
-          process.stderr.write(err);
-          process.stdout.write(out);
-        });
+      if(this.filters.postgres) {
+        if(this.dbCreate) {
+          console.log("Creating postgres database: " + this.dbName);
+          exec(['createdb', this.dbName], function(err, out, code) {
+            if (err instanceof Error)
+              throw err;
+            process.stderr.write(err);
+            process.stdout.write(out);
+          });
+        }
+        if(this.dbUserCreate) {
+          console.log("Creating postgres user: " + this.dbUser);
+          exec(['createuser', '-s', '-r', '-d', this.dbUser], function(err, out, code) {
+            if (err instanceof Error)
+              throw err;
+            process.stderr.write(err);
+            process.stdout.write(out);
+          });
+        }
       }
     },
 
