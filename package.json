@@ -1,6 +1,6 @@
 {
   "name": "generator-angular-express",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Yeoman generator for AngularJS + Express + PostgreSQL projects",
   "homepage": "https://github.com/mikec/generator-angular-express",
   "bugs": "https://github.com/mikec/generator-angular-express/issues",
